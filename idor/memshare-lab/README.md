@@ -1,5 +1,9 @@
 # MemShare Security Lab: Insecure Direct Object Reference (IDOR)
 
+This lab is based on the following public resources:
+
+- [How I Found an Insecure Direct Object Reference in TikTok](https://medium.com/@mrhavit/how-i-found-an-insecure-direct-object-reference-in-tiktok-c7303addf223?sharedUserId=pbalasaravanakumar)
+
 ## Project Overview
 MemShare is a minimal social media platform mimicking the core functionality of sharing "memories." This lab is designed to reproduce a real-world IDOR vulnerability discovered in a major social media platform's privacy modification functionality.
 
