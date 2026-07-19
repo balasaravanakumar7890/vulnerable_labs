@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MemShare</title>
+    <style>
+        body { font-family: Arial; margin: 40px auto; max-width: 600px; line-height: 1.6; }
+        .memory { border: 1px solid #ddd; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        .memory img { max-width: 100%; height: auto; }
+        nav { margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .badge { background: #eee; padding: 3px 8px; border-radius: 10px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Global Feed</a>
+        <a href="/profile?user=victim_user">Victim's Profile</a>
+        <a href="/profile?user=attacker_user">My Profile (Attacker)</a>
+        <a href="/login">Login</a>
+    </nav>
+    <div id="content">
+        
+    <h2 id="profileName">Profile</h2>
+    <div id="uploadSection" style="display:none; background:#f9f9f9; padding:15px; margin-bottom:20px;">
+        <h3>Upload Memory</h3>
+        <input type="text" id="imgUrl" placeholder="Image URL (e.g. https://placehold.co/400)"><br><br>
+        <button onclick="upload()">Upload Private Memory</button>
+    </div>
+    <div id="memories"></div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('user');
+        document.getElementById('profileName').innerText = user + "'s Profile";
+        
+        if(user === 'attacker_user') {
+            document.getElementById('uploadSection').style.display = 'block';
+        }
+
+        function loadMemories() {
+            fetch('/api/profile/' + user)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('memories');
+                    container.innerHTML = '';
+                    if(!data.memories) return;
+                    
+                    data.memories.forEach(mem => {
+                        let html = `<div class="memory">
+                            <p>ID: <span style="font-size:10px; color:#999;">${mem.memory_id}</span></p>
+                            <p>Status: <span class="badge">${mem.privacy === 1 ? 'Public' : 'Private'}</span></p>`;
+                        
+                        if (mem.privacy === 1) {
+                            html += `<img src="${mem.content_url}" />`;
+                        } else {
+                            html += `<div style="background:#ddd; height:150px; display:flex; align-items:center; justify-content:center;">Private Memory (Hidden)</div>`;
+                        }
+                        
+                        html += `<br><br><button onclick="makePublic('${mem.memory_id}')">Make Public</button>`;
+                        html += `</div>`;
+                        container.innerHTML += html;
+                    });
+                });
+        }
+        
+        function makePublic(id) {
+            fetch('/api/privacy/modify', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ memory_id: id, type: 1 })
+            }).then(res => res.json()).then(data => {
+                alert(data.message || data.error);
+                loadMemories();
+            });
+        }
+        
+        function upload() {
+            fetch('/api/memories/upload', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content_url: document.getElementById('imgUrl').value })
+            }).then(res => res.json()).then(data => {
+                alert(data.message || data.error);
+                loadMemories();
+            });
+        }
+
+        loadMemories();
+    </script>
+
+    </div>
+</body>
+</html>
