@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Inbox · Community Hub{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Messages</p><h1>Inbox</h1></div><a class="button" href="{{ url_for('compose') }}">New message</a></div>
+{% if messages %}<table><thead><tr><th>From</th><th>Subject</th><th>Received</th></tr></thead><tbody>{% for message in messages %}<tr><td>{{ message.sender.username }}</td><td><a href="{{ url_for('inbox', MailMessageKey=message.id, IsFromInbox='True') }}">{{ message.subject }}</a></td><td>{{ message.created_at.strftime('%d %b %Y') }}</td></tr>{% endfor %}</tbody></table>{% else %}<p class="empty">Your inbox is empty.</p>{% endif %}
+{% endblock %}

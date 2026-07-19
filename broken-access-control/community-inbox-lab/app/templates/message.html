@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ message.subject }} · Community Hub{% endblock %}
+{% block content %}
+<article class="message-card"><a class="back" href="{{ url_for('inbox') }}">← Back to inbox</a><p class="eyebrow">Direct message</p><h1>{{ message.subject }}</h1><dl class="message-meta"><dt>From</dt><dd>{{ message.sender.username }}</dd><dt>To</dt><dd>{{ message.recipient.username }}</dd><dt>Sent</dt><dd>{{ message.created_at.strftime('%d %B %Y, %H:%M UTC') }}</dd></dl><div class="message-body">{{ message.body }}</div></article>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}My profile · Community Hub{% endblock %}
+{% block content %}
+<h1>My profile</h1>
+<dl class="profile-list"><dt>Member</dt><dd>{{ current_user.username }}</dd><dt>Email</dt><dd>{{ current_user.email }}</dd><dt>Role</dt><dd>Community member</dd></dl>
+{% endblock %}

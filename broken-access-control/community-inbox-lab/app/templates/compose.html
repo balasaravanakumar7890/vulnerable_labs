@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}New message · Community Hub{% endblock %}
+{% block content %}
+<section class="compose-card"><p class="eyebrow">Direct messages</p><h1>New message</h1><form method="post" novalidate><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>To <select name="recipient" required><option value="">Select a member</option>{% for member in members %}<option value="{{ member.username }}">{{ member.username }}</option>{% endfor %}</select></label><label>Subject <input name="subject" maxlength="120" required></label><label>Message <textarea name="body" maxlength="5000" rows="9" required></textarea></label><button type="submit">Send message</button></form></section>
+{% endblock %}
