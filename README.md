@@ -1,37 +1,8 @@
 # Vulnerable Labs
 
-> A collection of intentionally vulnerable, Dockerized web applications built from real-world bug bounty reports, CVEs, PortSwigger labs, and public writeups.
-
-The goal of this repository is to understand vulnerabilities from the inside out—not just exploit them.
-
-Each lab is a minimal but realistic application that reproduces a single vulnerability while keeping every unrelated feature secure. This makes it easier to study the root cause, exploit methodology, source code, and remediation without unnecessary complexity.
+Each lab is a minimal but realistic application that reproduces a single vulnerability while keeping every unrelated feature secure. 
 
 ---
-
-## Objectives
-
-- Learn how vulnerabilities actually occur in production applications.
-- Practice reconnaissance and manual testing.
-- Understand backend implementation and trust boundaries.
-- Analyze vulnerable source code.
-- Patch the vulnerability.
-- Verify the fix by retesting.
-- Build methodology that transfers to real bug bounty programs.
-
----
-
-## Design Principles
-
-Every lab follows these principles:
-
-- One intentional vulnerability per lab.
-- Only the required features are implemented.
-- All unrelated functionality is implemented securely.
-- Realistic workflows instead of toy examples.
-- Fully Dockerized for one-command setup.
-- Source code is included.
-- Exploit documentation is provided.
-- Remediation guidance is included.
 
 ---
 
@@ -66,37 +37,6 @@ For every lab, follow the same process:
 ```
 
 ---
-
-# Repository Structure
-
-```
-vulnerable-labs/
-│
-├── idor/
-│   ├── memshare-lab/
-│   ├── document-sharing/
-│   └── ...
-│
-├── sqli/
-│
-├── xss/
-│
-├── csrf/
-│
-├── ssrf/
-│
-├── auth/
-│
-├── business-logic/
-│
-├── mass-assignment/
-│
-├── api/
-│
-└── ...
-```
-
-Each vulnerability category contains one or more independent labs.
 
 ---
 
@@ -181,23 +121,6 @@ docker compose up --build
 
 ---
 
-# Lab Methodology
-
-Each lab is intended to be approached like a real bug bounty target.
-
-Avoid reading the solution immediately.
-
-Recommended approach:
-
-- Explore the application
-- Identify available functionality
-- Enumerate endpoints
-- Test authorization
-- Analyze API behavior
-- Attempt exploitation
-- Read the source code
-- Patch the issue
-- Verify the fix
 
 ---
 
@@ -241,28 +164,6 @@ Do not use these techniques against systems without explicit authorization.
 
 ---
 
-# Roadmap
-
-- [ ] IDOR
-- [ ] SQL Injection
-- [ ] XSS
-- [ ] CSRF
-- [ ] SSRF
-- [ ] Authentication flaws
-- [ ] Authorization flaws
-- [ ] Business Logic vulnerabilities
-- [ ] API vulnerabilities
-- [ ] File Upload
-- [ ] Path Traversal
-- [ ] Command Injection
-- [ ] XXE
-- [ ] Race Conditions
-- [ ] JWT vulnerabilities
-- [ ] OAuth vulnerabilities
-- [ ] GraphQL vulnerabilities
-- [ ] Prototype Pollution
-
----
 
 # License
 
