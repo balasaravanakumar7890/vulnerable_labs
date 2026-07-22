@@ -1,54 +1,72 @@
 # Broken Object Level Authorization (IDOR) - Modify Another User's Memory Privacy
 
-## Difficulty
+## Here is it the steps i exactly followed in this lab
 
-Easy
+## Step 1 - Mapping the features
+
+    Features
+
+    1.Login
+        endpoint - api/login
+        parameter - username,password
+        res param - message,username
+
+        actions
+            verifying the user identiy(authentication jwt)
+
+![Global Feed](images/login.png)
+
+    2.Profile
+        endpoint - api/profile/attacker_user
+        res param - message_id,content_url,privacy,username
+
+        actions
+            identiy of the users
+
+![Global Feed](images/profile.png)
+
+    3.Memory upload
+        endpoint - api/memories/upload
+        param - content_url
+        res param - message_id, message
+
+        actions
+            uploading images as memory(private by default)
+
+![Global Feed](images/memory.png)
+
+    4.Privacy change
+        enpoint - api/privacy/modify
+        param - message_id,type
+
+        actions
+            changing the status of the memory to private to public
+
+    5.Global feed
+        endpoint - api feed
+        res param - author,message_id,content_url
+
+        actions
+            the public memory are visible in a global feed
+
+![Global Feed](images/global_feed.png)
 
 ---
 
-## Goal
+## Step 2 - Build Thread models
 
-Make another user's **private memory** become **public** by abusing the privacy modification API.
+    1.Can we login without credentials
+    2.can we access another user profile
+    3.can we change the privacy of another user memory
 
+### test every thread models
+
+    1.no
+    2.no
+    3.yes
 ---
 
-## Application Overview
-
-The application contains four major features.
-
-- Login
-- Victim Profile
-- Attacker Profile
-- Global Feed
-
-The Global Feed only displays memories marked as **public**.
-
----
-
-## Step 1 - Observe the Global Feed
-
-Initially, only public memories are visible.
-
-![Global Feed](images/01-global-feed.png)
-
----
-
-## Step 2 - Login
-
-Login using the attacker account.
-
-```
-Username: attacker_user
-Password: password123
-```
-
-The application returns a JWT cookie after successful authentication.
-
-![Login](images/02-login.png)
-
----
-
-## Step 3 - Upload a Memory
+## Step 3 - Testing - Upload a Memory
 
 Navigate to **My Profile**.
 
@@ -81,7 +99,7 @@ Response
 
 Notice that the server returns a **memory_id**.
 
-![Upload Memory](images/03-upload-memory.png)
+![Upload Memory](images/memory.png)
 
 ---
 
@@ -109,7 +127,7 @@ At this point we learn two important things.
 
 This suggests there may be another endpoint responsible for changing privacy.
 
-![Profile Response](images/04-profile-response.png)
+![Profile Response](images/profile.png)
 
 ---
 
@@ -254,13 +272,3 @@ Also known as
 **Insecure Direct Object Reference (IDOR)**
 
 ---
-
-# Key Takeaway
-
-Never trust object identifiers supplied by the client.
-
-Authentication only identifies **who** the user is.
-
-Authorization determines **what** that user is allowed to modify.
-
-Every operation that accepts an object identifier must verify ownership or permissions before performing the action.
